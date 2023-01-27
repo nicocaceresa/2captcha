@@ -19,7 +19,7 @@ search_2 = browser.find_element(By.ID, "input-password")
 
 
 result = solveRecaptcha(
-    "6LfEq1gUAAAAACEE4w7Zek8GEmBooXMMWDpBjI6r",
+    "6Ld9tP8SAAAAAKgr5QDjmeSkBXDIIy6aDRFdgYa8",
     "https://secure.similarweb.com/account/login?returnUrl=https%3a%2f%2fpro.similarweb.com%2f"
 )
 
@@ -27,42 +27,35 @@ code = result['code']
 
 print(code)
 
+#time.sleep(10)
 
-#para iterar hacer un while
+WebDriverWait(browser, 120).until(
+    EC.presence_of_element_located((By.ID, 'g-recaptcha-response'))
+)
 
-ele = browser.find_element(By.XPATH, '//*[@id="g-recaptcha-response"]')
-browser.execute_script("arguments[0].style.display = 'block';",ele)
-browser.execute_script("arguments[0].removeAttribute('style')",ele)
+findtable = browser.find_element(By.XPATH, '//*[@id="g-recaptcha-response"]')
 
 
+#browser.execute_script("document.getElementById('g-recaptcha-response').innerHTML = " + "'" + code + "'")
+#findtable.send_keys(code)
+'''
+textarea = browser.find_element(By.ID, 'g-recaptcha-response')
+textarea.click()
+textarea.clear()
+textarea.send_keys(str(code))
+print('listo')
 
-element = browser.find_element(By.XPATH, '//*[@id="g-recaptcha-response"]')
+
+textarea = WebDriverWait(browser, 20).until(EC.element_to_be_clickable((By.ID, 'g-recaptcha-response')))
+textarea.click()
+textarea.clear()
+textarea.send_keys(str(code))
+'''
+
+#browser.execute_script(f'document.getElementsById("g-recaptcha-response")[0].value={code}')
+element = browser.find_element(By.ID, 'g-recaptcha-response')
 browser.execute_script(f"arguments[0].innerText = '{code}'", element)
 
 
-'''
-ele = browser.find_element(By.XPATH, '//*[@id="root"]/div/div[2]/div/div/div[1]/div/div[2]/div[6]/div/div/div/div[1]/iframe')
-browser.execute_script("arguments[0].submit();",ele)
-'''
 
 time.sleep(10)
-
-
-
-
-search.send_keys("nicolas.lizama@kaufmann.cl")
-search_2.send_keys("nicolas.lizama")
-
-time.sleep(7)
-
-browser.find_element(By.XPATH, '//*[@id="root"]/div/div[2]/div/div/div[1]/div/div[2]/button').click()
-
-
-
-#xpath del verificar //*[@id="recaptcha-verify-button"]
-
-time.sleep(30)
-
-
-#https://www.youtube.com/watch?v=0tYFZp_EVbQ
-#?invisible=false
